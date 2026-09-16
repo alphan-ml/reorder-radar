@@ -173,3 +173,81 @@ attribution and the known `days_since_prior_order` 30-day-cap data quirk:
 Full metrics, split sizes, clean-step stats, surrogate results, and 10
 anonymized example rankings: `outputs/site_data.json` -- committed,
 produced by `reorder-radar export`, never typed by hand.
+
+## Live serving endpoint (AWS Lambda + API Gateway)
+
+The trained lambdarank model is served live over HTTPS, mirroring the
+Buyer Value Radar deployment (Lambda + API Gateway + S3, no idle cost).
+
+- **URL:** `https://fmyrmgb4h1.execute-api.us-east-1.amazonaws.com`
+- **Routes:**
+  - `GET /health` -> `{"status": "ok"}`
+  - `GET /users/sample` -> 10 real holdout `user_id`s you can try
+  - `POST /rank` with body `{"user_id": <int>}` -> that user's top-10
+    candidate products by predicted reorder score
+  - CORS enabled for `https://www.giggitai.com` and `https://giggitai.com`
+
+Example:
+
+```bash
+curl -s https://fmyrmgb4h1.execute-api.us-east-1.amazonaws.com/health
+# {"status": "ok"}
+
+curl -s https://fmyrmgb4h1.execute-api.us-east-1.amazonaws.com/users/sample
+# {"user_ids": [2, 9, 50, 109, 110, 116, 117, 121, 135, 192]}
+
+curl -s -X POST https://fmyrmgb4h1.execute-api.us-east-1.amazonaws.com/rank \
+  -H 'Content-Type: application/json' \
+  -d '{"user_id": 156122}'
+```
+
+Response shape:
+
+```json
+{
+  "user_id": 156122,
+  "products": [
+    {"product_id": 13176, "product_name": "Bag of Organic Bananas", "score": 3.318618, "times_bought_before": 51},
+    ...
+  ]
+}
+```
+
+An unknown `user_id` (not in the holdout set) returns HTTP 404 with an
+`error` message.
+
+### How it's built
+
+`aws-lambda/score.py` is the Lambda handler. It reimplements
+`reorder_radar.rank.top_n_for_user` without pandas or pyarrow (to keep
+the deployment zip small): the holdout feature table
+(`outputs/holdout_features.parquet`, 847,516 rows) is converted at build
+time into a plain `numpy` `.npz` (user_id / product_id / float32 feature
+matrix, sorted by user_id) plus a JSON `user_id -> [row_start, row_count]`
+index, and a `product_id -> product_name` JSON lookup from
+`data/raw/products.csv`. These, the trained model file
+(`outputs/checkpoints/lambdarank_model.txt`), and `train_info.json`
+(for `best_iteration`) are uploaded to S3 and pulled into `/tmp` on
+Lambda cold start. See `aws-lambda/build_artifacts.py`.
+
+### Verification (2026-09-16)
+
+- `GET /health` -> 200 `{"status": "ok"}`
+- `GET /users/sample` -> 200, 10 valid holdout user_ids
+- `POST /rank` for holdout user 156122 -> **identical product order and
+  scores** to a local run of `reorder_radar.rank.top_n_for_user(156122, ...)`
+  against the real trained model and the real `holdout_features.parquet`
+  -- max abs score diff ~5e-7 (an artifact of the endpoint's 6-decimal
+  JSON rounding, not a real prediction difference).
+- `POST /rank` for an unknown user_id (999999999) -> 404
+- `OPTIONS /rank` preflight from `https://www.giggitai.com` -> 200 with
+  `access-control-allow-origin: https://www.giggitai.com`
+
+### Infrastructure
+
+- S3 bucket `giggit-reorder-radar-models` (`models/` = artifacts,
+  `lambda-code/` = deployment zip)
+- IAM role `reorder-lambda-execution-role` (AWSLambdaBasicExecutionRole +
+  inline `s3:GetObject` on `models/*`)
+- Lambda function `reorder-rank-user` (python3.11, 1024 MB, 30 s timeout)
+- API Gateway HTTP API `reorder-rank-api`

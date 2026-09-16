@@ -118,3 +118,49 @@ join inside that budget; intermediate frames are `del`eted and
   push, no site change, no cloud deploy, per standing instructions.
 - TIME: 2026-09-16, ~10:44-11:05 ET (data download through pipeline
   completion), plus write-up.
+
+## Decisions (added -- AWS serving endpoint)
+
+| ID | Decision | Rejected alternative |
+|---|---|---|
+| D10 | AWS (Lambda + API Gateway + S3), mirroring the Buyer Value Radar deployment | SageMaker endpoint (idle cost for a stateless scorer with occasional traffic; Lambda scales to zero) |
+| D11 | Holdout feature table converted at build time to a plain numpy `.npz` (sorted by user_id, float32 feature matrix) plus a JSON `user_id -> [start, count]` index, instead of shipping pyarrow/pandas into the Lambda zip | Bundling pyarrow+pandas to read the parquet directly at cold start -- unnecessary dependency weight (would push the zip well past what's needed) for a lookup this simple; the reference implementation (`reorder_radar.rank.top_n_for_user`) is verified byte-order-identical against this reimplementation for a real holdout user |
+| D12 | Reused the buyer-value-radar Lambda's numpy 1.26.4 / lightgbm 3.3.5 / scipy 1.13.1 manylinux2014 build (with bundled `libgomp.so.1`) rather than rebuilding wheels from scratch | Building a fresh Lambda-compatible wheel set for this repo -- the existing build is already verified working on python3.11/x86_64 Lambda and lightgbm 3.3.5 loads models trained with lightgbm 4.7.0 without numeric difference (same finding as D9 in buyer-value-radar/CONTEXT.md) |
+| D13 | Product name lookup (`data/raw/products.csv` -> `product_id: product_name` JSON, 49,688 products, ~2.1MB) shipped as a plain S3 JSON file, loaded once per cold start | Bundling `products.csv` into the zip and parsing with pandas -- same pyarrow/pandas-avoidance reasoning as D11 |
+| D14 | Only `aws-lambda/score.py` and `aws-lambda/build_artifacts.py` are committed to git; `aws-lambda/package/`, `aws-lambda/deploy.zip`, and `aws-lambda/artifacts/` are gitignored | Committing the ~164MB unpacked Lambda package (numpy/scipy/lightgbm binaries) -- matches the buyer-value-radar repo's existing convention (only `score.py` tracked) |
+
+## Task reports (added)
+
+### Task: build and deploy the AWS scoring endpoint (Lambda + API Gateway + S3)
+
+- STATUS: done, live, tested end-to-end against the real trained model.
+- BUILT: `aws-lambda/score.py` (Lambda handler -- loads the lambdarank
+  booster and the npz/index/product-name artifacts from S3 into `/tmp`
+  on cold start; reimplements `top_n_for_user` without pandas/pyarrow);
+  `aws-lambda/build_artifacts.py` (build-time converter: parquet ->
+  npz + index JSON + product-name JSON, run once locally with the repo's
+  own venv, which has pandas/pyarrow).
+- INFRASTRUCTURE: S3 bucket `giggit-reorder-radar-models`; IAM role
+  `reorder-lambda-execution-role`; Lambda function `reorder-rank-user`
+  (python3.11, 1024MB, 30s timeout); API Gateway HTTP API
+  `reorder-rank-api`, live at
+  `https://fmyrmgb4h1.execute-api.us-east-1.amazonaws.com`
+  (`GET /health`, `GET /users/sample`, `POST /rank`), CORS enabled for
+  `https://www.giggitai.com` and `https://giggitai.com`.
+- VERIFIED: `GET /health` -> 200; `GET /users/sample` -> 200 with 10
+  real holdout user_ids; `POST /rank` for real holdout user 156122 ->
+  product order and scores identical to a local run of
+  `reorder_radar.rank.top_n_for_user` against the real trained model and
+  real `outputs/holdout_features.parquet` (max abs score diff ~5e-7,
+  attributable to the endpoint's 6-decimal JSON rounding, not a real
+  difference); unknown user_id -> 404; `OPTIONS /rank` preflight from
+  `https://www.giggitai.com` -> 200 with the correct
+  `access-control-allow-origin` header.
+- SPEC CHECK: no file on giggitai.com was touched -- backend-only, per
+  the standing rule that site changes need explicit go-ahead before any
+  deploy.
+- NEXT: front-end block on the site (out of scope for this task); a
+  distinct sibling build (fraud-radar) is being deployed in parallel by
+  another session, with distinct AWS resource names by design.
+- TIME: 2026-09-16, ~11:15-11:25 ET (see commit and BUILD-STATUS doc for
+  exact stamp).

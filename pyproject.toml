@@ -1,0 +1,36 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "reorder-radar"
+version = "0.1.0"
+description = "Ranks a returning grocery shopper's past products by probability of reorder in their next basket, built and evaluated on the full real Instacart Market Basket Analysis dataset."
+requires-python = ">=3.11"
+license = { text = "MIT" }
+dependencies = [
+    "pandas>=2.0",
+    "numpy>=1.24",
+    "lightgbm>=4.0",
+    "scikit-learn>=1.3",
+    "pyarrow>=14.0",
+    "scipy>=1.11",
+    "requests>=2.31",
+    "tqdm>=4.66",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0", "ruff>=0.4"]
+
+[project.scripts]
+reorder-radar = "reorder_radar.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

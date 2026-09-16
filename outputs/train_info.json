@@ -1,0 +1,8 @@
+{
+  "best_iteration": 133,
+  "fit_users": 104967,
+  "early_stop_users": 13121,
+  "fit_rows": 6779743,
+  "val_ndcg_at_10": 0.5755994838009383,
+  "val_ndcg_at_20": 0.6301274143673267
+}

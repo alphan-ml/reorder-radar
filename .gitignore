@@ -1,0 +1,11 @@
+.env
+.venv/
+__pycache__/
+*.pyc
+data/raw/
+outputs/*.parquet
+outputs/checkpoints/
+outputs/*.log
+outputs/*.csv
+.DS_Store
+*.egg-info/

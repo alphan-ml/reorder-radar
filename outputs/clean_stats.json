@@ -1,0 +1,34 @@
+{
+  "orders": {
+    "raw_rows": 3421083,
+    "kept_rows": 3421083,
+    "dropped_duplicate_order_id": 0,
+    "dropped_null_user_id": 0,
+    "dropped_bad_eval_set": 0
+  },
+  "op_prior": {
+    "raw_rows": 32434489,
+    "kept_rows": 32434489,
+    "dropped_null_ids": 0,
+    "dropped_bad_reordered": 0
+  },
+  "op_train": {
+    "raw_rows": 1384617,
+    "kept_rows": 1384617,
+    "dropped_null_ids": 0,
+    "dropped_bad_reordered": 0
+  },
+  "products": {
+    "raw_rows": 49688,
+    "kept_rows": 49688,
+    "dropped_duplicate_product_id": 0
+  },
+  "aisles": {
+    "raw_rows": 134,
+    "kept_rows": 134
+  },
+  "departments": {
+    "raw_rows": 21,
+    "kept_rows": 21
+  }
+}

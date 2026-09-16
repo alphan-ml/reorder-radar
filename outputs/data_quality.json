@@ -1,0 +1,69 @@
+{
+  "files": {
+    "orders.csv": {
+      "row_count": 3421083,
+      "columns": [
+        "order_id",
+        "user_id",
+        "eval_set",
+        "order_number",
+        "order_dow",
+        "order_hour_of_day",
+        "days_since_prior_order"
+      ]
+    },
+    "order_products__prior.csv": {
+      "row_count": 32434489,
+      "columns": [
+        "order_id",
+        "product_id",
+        "add_to_cart_order",
+        "reordered"
+      ]
+    },
+    "order_products__train.csv": {
+      "row_count": 1384617,
+      "columns": [
+        "order_id",
+        "product_id",
+        "add_to_cart_order",
+        "reordered"
+      ]
+    },
+    "products.csv": {
+      "row_count": 49688,
+      "columns": [
+        "product_id",
+        "product_name",
+        "aisle_id",
+        "department_id"
+      ]
+    },
+    "aisles.csv": {
+      "row_count": 134,
+      "columns": [
+        "aisle_id",
+        "aisle"
+      ]
+    },
+    "departments.csv": {
+      "row_count": 21,
+      "columns": [
+        "department_id",
+        "department"
+      ]
+    }
+  },
+  "orders_eval_set_counts": {
+    "prior": 3214874,
+    "train": 131209,
+    "test": 75000
+  },
+  "distinct_users": 206209,
+  "users_with_train_final_order": 131209,
+  "users_with_test_final_order": 75000,
+  "days_since_prior_order_eq_30_count": 369323,
+  "days_since_prior_order_note": "Instacart caps days_since_prior_order at 30; a true gap longer than 30 days is recorded as exactly 30.0, so this count over-includes genuine 30-day gaps.",
+  "order_products_prior_orders_match_orders_csv": true,
+  "distinct_products": 49688
+}

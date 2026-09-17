@@ -13,8 +13,8 @@ import json
 import os
 
 import boto3
-import numpy as np
 import lightgbm as lgb
+import numpy as np
 
 S3_BUCKET = os.environ.get("MODEL_BUCKET", "giggit-reorder-radar-models")
 MODEL_PREFIX = os.environ.get("MODEL_PREFIX", "models")
@@ -67,7 +67,7 @@ def _load_artifacts() -> None:
 
 def sample_user_ids(n: int = 10) -> list[int]:
     _load_artifacts()
-    ids = sorted(int(u) for u in _index.keys())
+    ids = sorted(int(u) for u in _index)
     return ids[:n]
 
 

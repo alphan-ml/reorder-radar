@@ -119,8 +119,10 @@ def _dataset_license(ref: str) -> str:
         try:
             _run(["kaggle", "datasets", "metadata", "-d", ref, "-p", tmp])
             meta = json.loads((Path(tmp) / "dataset-metadata.json").read_text())
-            if isinstance(meta, str):  # the Kaggle CLI writes a JSON-encoded string
+            if isinstance(meta, str):  # older Kaggle CLI versions write a JSON-encoded string
                 meta = json.loads(meta)
+            if "info" in meta:  # newer Kaggle CLI versions nest the fields under "info"
+                meta = meta["info"]
             licenses = meta.get("licenses") or []
             if licenses and licenses[0].get("name"):
                 return str(licenses[0]["name"])

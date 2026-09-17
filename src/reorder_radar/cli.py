@@ -14,6 +14,7 @@ from pathlib import Path
 
 import pandas as pd
 
+from reorder_radar import bootstrap as bootstrap_mod
 from reorder_radar import check as check_mod
 from reorder_radar import clean as clean_mod
 from reorder_radar import eval as eval_mod
@@ -147,17 +148,58 @@ def step_eval(force: bool = False) -> None:
     booster = model_mod.load_lambdarank()
     test_rows["lambdarank_score"] = model_mod.predict_lambdarank(booster, test_rows)
     test_rows["baseline_score"] = model_mod.baseline_score(test_rows)
+    test_rows["baseline_freq_recency_score"] = model_mod.baseline_score_freq_recency(test_rows)
 
     lambdarank_metrics = eval_mod.evaluate(test_rows, "lambdarank_score")
     baseline_metrics = eval_mod.evaluate(test_rows, "baseline_score")
+    baseline_freq_recency_metrics = eval_mod.evaluate(test_rows, "baseline_freq_recency_score")
+
+    per_user = eval_mod.per_user_metrics_table(test_rows, {
+        "model": "lambdarank_score",
+        "baseline_freq": "baseline_score",
+        "baseline_freq_recency": "baseline_freq_recency_score",
+    })
+    per_user.to_csv(OUT_DIR / "per_user_metrics.csv", index=False)
+
+    boot_ndcg = bootstrap_mod.paired_bootstrap(per_user, "ndcg10_model", "ndcg10_baseline_freq")
+    boot_recall = bootstrap_mod.paired_bootstrap(per_user, "recall10_model", "recall10_baseline_freq")
+
+    lambdarank_metrics["ndcg10_ci95"] = boot_ndcg["model_ci95"]
+    lambdarank_metrics["recall10_ci95"] = boot_recall["model_ci95"]
+    lambdarank_metrics["lift_vs_baseline_ci95"] = boot_ndcg["lift_ci95"]
+    lambdarank_metrics["lift_vs_baseline_recall10_ci95"] = boot_recall["lift_ci95"]
+    baseline_metrics["ndcg10_ci95"] = boot_ndcg["baseline_ci95"]
+    baseline_metrics["recall10_ci95"] = boot_recall["baseline_ci95"]
 
     (OUT_DIR / "metrics_lambdarank.json").write_text(json.dumps(lambdarank_metrics, indent=2))
     (OUT_DIR / "metrics_baseline.json").write_text(json.dumps(baseline_metrics, indent=2))
+    (OUT_DIR / "metrics_baseline_freq_recency.json").write_text(
+        json.dumps(baseline_freq_recency_metrics, indent=2)
+    )
+
+    candidate_bucket_labels = bootstrap_mod.candidate_size_bucket(per_user["n_candidates"])
+    prior_bucket_labels = bootstrap_mod.prior_orders_quartile_bucket(per_user["n_prior_orders"])
+    segments = {
+        "n_resamples": bootstrap_mod.N_RESAMPLES,
+        "seed": bootstrap_mod.SEED,
+        "candidate_set_size_buckets": bootstrap_mod.segment_table(
+            per_user, candidate_bucket_labels, [b[0] for b in bootstrap_mod.CANDIDATE_SIZE_BUCKETS],
+            "ndcg10_model", "ndcg10_baseline_freq", range_col="n_candidates",
+        ),
+        "prior_order_count_quartile_buckets": bootstrap_mod.segment_table(
+            per_user, prior_bucket_labels, bootstrap_mod.PRIOR_ORDER_QUARTILE_BUCKETS,
+            "ndcg10_model", "ndcg10_baseline_freq", range_col="n_prior_orders",
+        ),
+    }
+    (OUT_DIR / "segments.json").write_text(json.dumps(segments, indent=2))
 
     _log(
         f"eval: lambdarank ndcg@10={lambdarank_metrics['ndcg@10']:.4f} "
-        f"recall@10={lambdarank_metrics['recall@10']:.4f} | baseline ndcg@10="
-        f"{baseline_metrics['ndcg@10']:.4f} recall@10={baseline_metrics['recall@10']:.4f}, "
+        f"(95% CI {lambdarank_metrics['ndcg10_ci95']}) recall@10={lambdarank_metrics['recall@10']:.4f} | "
+        f"baseline ndcg@10={baseline_metrics['ndcg@10']:.4f} recall@10={baseline_metrics['recall@10']:.4f} | "
+        f"freq+recency baseline ndcg@10={baseline_freq_recency_metrics['ndcg@10']:.4f} "
+        f"recall@10={baseline_freq_recency_metrics['recall@10']:.4f} | "
+        f"lift@10 vs baseline {lambdarank_metrics['lift_vs_baseline_ci95']}, "
         f"done in {time.time() - t0:.1f}s"
     )
     _mark_done("eval")

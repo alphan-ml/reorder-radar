@@ -107,3 +107,14 @@ def baseline_score(rows: pd.DataFrame) -> np.ndarray:
     """
     return (rows["times_bought"].to_numpy(dtype="float64") * 1000.0
             + rows["reorder_rate"].to_numpy(dtype="float64"))
+
+
+def baseline_score_freq_recency(rows: pd.DataFrame) -> np.ndarray:
+    """Frequency-plus-recency baseline: rank by times_bought, tie-broken by
+    recency (days since the item was last bought -- fewer days scores
+    higher). Both are computed from prior orders only, no fitting. The
+    recency term is squashed into (0, 1] so it only ever breaks ties within
+    equal times_bought, the same way `baseline_score` uses reorder_rate.
+    """
+    recency = 1.0 / (1.0 + rows["days_since_last_bought"].to_numpy(dtype="float64"))
+    return rows["times_bought"].to_numpy(dtype="float64") * 1000.0 + recency

@@ -3,7 +3,7 @@
   "n_train_users": 1254,
   "n_test_users": 157,
   "model_spearman": 0.7031524930441272,
-  "model_spearman_p": 9.99372759058204e-25,
+  "model_spearman_p": 9.993727590582034e-25,
   "baseline_30day_count_spearman": 0.714470775684011,
   "baseline_30day_count_spearman_p": 8.081199733440704e-26,
   "window_days": 30,

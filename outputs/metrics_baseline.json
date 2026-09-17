@@ -4,5 +4,13 @@
   "recall@10": 0.5245977799650091,
   "recall@20": 0.7015672676068612,
   "n_users_evaluated": 12231,
-  "n_users_excluded_no_positive": 890
+  "n_users_excluded_no_positive": 890,
+  "ndcg10_ci95": [
+    0.49648433674605935,
+    0.5058965927836324
+  ],
+  "recall10_ci95": [
+    0.5191246207092882,
+    0.5303739562249874
+  ]
 }

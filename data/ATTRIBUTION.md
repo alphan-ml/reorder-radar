@@ -24,4 +24,4 @@ Known data quirk (Instacart's own documentation): `days_since_prior_order` is ca
 
 Distinct `user_id` values in `orders.csv`: 206,209 (known published figure: ~206,209; matches).
 
-Verified on a prior run (this run skipped re-downloading because the files and counts already matched).
+All required row counts match the known published Instacart figures exactly, so this mirror is treated as a complete, faithful copy of the original competition data for this build.

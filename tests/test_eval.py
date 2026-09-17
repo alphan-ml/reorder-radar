@@ -48,3 +48,39 @@ def test_baseline_score_orders_by_times_bought_then_reorder_rate():
     assert scores[1] > scores[0]
     # higher times_bought always dominates a full-range reorder_rate difference
     assert scores[0] > scores[2]
+
+
+def test_baseline_score_freq_recency_ranks_recent_item_above_older_at_equal_frequency():
+    from reorder_radar import model
+
+    rows = pd.DataFrame({
+        "times_bought": [5, 5, 2],
+        "days_since_last_bought": [2.0, 30.0, 0.0],
+    })
+    scores = model.baseline_score_freq_recency(rows)
+    # same times_bought (5), the more recently bought item (row0, 2 days) beats the older one (row1, 30 days)
+    assert scores[0] > scores[1]
+    # higher times_bought always dominates a recency difference
+    assert scores[0] > scores[2]
+
+
+def test_per_user_metrics_table_shape_and_exclusion():
+    rows = pd.DataFrame({
+        "user_id": [1, 1, 2, 2, 3, 3],
+        "label": [1, 0, 0, 0, 0, 1],
+        "user_order_count": [4, 4, 7, 7, 2, 2],
+        "model_score": [0.9, 0.1, 0.9, 0.1, 0.1, 0.9],
+        "baseline_score": [0.8, 0.2, 0.9, 0.1, 0.2, 0.8],
+    })
+    table = eval_mod.per_user_metrics_table(
+        rows, {"model": "model_score", "baseline_freq": "baseline_score"}, k=10
+    )
+    # user 2 has zero positive labels, excluded
+    assert sorted(table["user_id"]) == [1, 3]
+    assert set(table.columns) == {
+        "user_id", "n_candidates", "n_prior_orders",
+        "ndcg10_model", "recall10_model", "ndcg10_baseline_freq", "recall10_baseline_freq",
+    }
+    row1 = table[table["user_id"] == 1].iloc[0]
+    assert row1["n_candidates"] == 2
+    assert row1["n_prior_orders"] == 4

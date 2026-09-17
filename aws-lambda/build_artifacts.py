@@ -1,8 +1,10 @@
 import json
+import sys
+from pathlib import Path
+
 import numpy as np
 import pandas as pd
-from pathlib import Path
-import sys
+
 sys.path.insert(0, 'src')
 from reorder_radar.model import FEATURE_COLS, MODEL_PATH
 
@@ -35,6 +37,7 @@ with open(OUT / 'products.json', 'w') as f:
 
 # model + train info
 import shutil
+
 shutil.copy(MODEL_PATH, OUT / 'lambdarank_model.txt')
 shutil.copy('outputs/train_info.json', OUT / 'train_info.json')
 

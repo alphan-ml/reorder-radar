@@ -110,7 +110,7 @@ join inside that budget; intermediate frames are `del`eted and
   sorted descending.
 - SPEC CHECK: task definition, feature list, models, split, metrics, and
   surrogate-value module built exactly as specified. Identity rules
-  followed (grep of the repo and `git log` for "Leon"/"Alto"/"Adair"/
+  followed (grep of the repo and `git log` for the banned identity strings/
   secrets/`.env` came back clean outside `.venv/` third-party source,
   which is not part of this repo).
 - OPEN: see Open items above.

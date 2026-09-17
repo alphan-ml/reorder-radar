@@ -66,3 +66,29 @@ def evaluate(rows: pd.DataFrame, score_col: str, k_list=K_LIST) -> dict:
     result["n_users_evaluated"] = len(per_user)
     result["n_users_excluded_no_positive"] = n_excluded
     return result
+
+
+def per_user_metrics_table(rows: pd.DataFrame, score_cols: dict[str, str], k: int = 10) -> pd.DataFrame:
+    """One row per user with at least one positive label (the same exclusion
+    `evaluate` applies, since it depends only on `label`) -- `user_id`,
+    `n_candidates`, `n_prior_orders` (from the `user_order_count` feature,
+    constant per user), and `ndcg{k}_<name>` / `recall{k}_<name>` for every
+    `name: score_column` pair in `score_cols`. Meant to be persisted once
+    (`outputs/per_user_metrics.csv`) so later bootstrap/segment cuts never
+    need the raw candidate rows again.
+    """
+    records = []
+    for uid, g in rows.groupby("user_id", sort=False):
+        if int(g["label"].sum()) == 0:
+            continue
+        rec = {
+            "user_id": int(uid),
+            "n_candidates": len(g),
+            "n_prior_orders": int(g["user_order_count"].iloc[0]),
+        }
+        for name, col in score_cols.items():
+            m = per_user_metrics(g[[col, "label"]].rename(columns={col: "score"}), k_list=(k,))
+            rec[f"ndcg{k}_{name}"] = m[f"ndcg@{k}"]
+            rec[f"recall{k}_{name}"] = m[f"recall@{k}"]
+        records.append(rec)
+    return pd.DataFrame.from_records(records)

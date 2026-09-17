@@ -107,19 +107,19 @@
     "positive_label_rows": 828824
   },
   "train_info": {
-    "best_iteration": 133,
+    "best_iteration": 147,
     "fit_users": 104967,
     "early_stop_users": 13121,
     "fit_rows": 6779743,
-    "val_ndcg_at_10": 0.5755994838009383,
-    "val_ndcg_at_20": 0.6301274143673267
+    "val_ndcg_at_10": 0.5750910303144227,
+    "val_ndcg_at_20": 0.629765772497046
   },
   "metrics": {
     "lambdarank": {
-      "ndcg@10": 0.5487011032076259,
-      "ndcg@20": 0.6052767192224291,
-      "recall@10": 0.5783148161668711,
-      "recall@20": 0.7552819568489768,
+      "ndcg@10": 0.5486391614549017,
+      "ndcg@20": 0.6051149271715693,
+      "recall@10": 0.5782102272045758,
+      "recall@20": 0.7550127692378152,
       "n_users_evaluated": 12231,
       "n_users_excluded_no_positive": 890
     },
@@ -137,7 +137,7 @@
     "n_train_users": 1254,
     "n_test_users": 157,
     "model_spearman": 0.7031524930441272,
-    "model_spearman_p": 9.99372759058204e-25,
+    "model_spearman_p": 9.993727590582034e-25,
     "baseline_30day_count_spearman": 0.714470775684011,
     "baseline_30day_count_spearman_p": 8.081199733440704e-26,
     "window_days": 30,
@@ -156,61 +156,61 @@
       "top_10_ranked_by_lambdarank": [
         {
           "product_name": "Starlight Mints",
-          "lambdarank_score": 0.6149,
+          "lambdarank_score": 0.6395,
           "times_bought_before": 2,
           "actually_reordered": false
         },
         {
           "product_name": "Unsweetened Original Almond Breeze Almond Milk",
-          "lambdarank_score": -0.0011,
+          "lambdarank_score": -0.0668,
           "times_bought_before": 2,
           "actually_reordered": false
         },
         {
           "product_name": "Funsize Mix 65 Pieces Candies",
-          "lambdarank_score": -0.249,
+          "lambdarank_score": -0.2887,
           "times_bought_before": 1,
           "actually_reordered": false
         },
         {
           "product_name": "Vintners Reserve Sauvignon Blanc",
-          "lambdarank_score": -0.5772,
+          "lambdarank_score": -0.6163,
           "times_bought_before": 3,
           "actually_reordered": false
         },
         {
           "product_name": "French Vanilla Sugar Free Liquid Coffee Creamer",
-          "lambdarank_score": -0.7246,
+          "lambdarank_score": -0.7008,
           "times_bought_before": 1,
           "actually_reordered": false
         },
         {
           "product_name": "White Paper 8-12 Cups Basket Coffee Filters",
-          "lambdarank_score": -0.8535,
+          "lambdarank_score": -0.831,
           "times_bought_before": 1,
           "actually_reordered": false
         },
         {
           "product_name": "French Vanilla Creamer",
-          "lambdarank_score": -0.8705,
+          "lambdarank_score": -0.8458,
           "times_bought_before": 1,
           "actually_reordered": false
         },
         {
           "product_name": "French Vanilla Powder Coffee Creamer",
-          "lambdarank_score": -0.9986,
+          "lambdarank_score": -0.9538,
           "times_bought_before": 1,
           "actually_reordered": false
         },
         {
           "product_name": "Miniatures Assortment Party Bag",
-          "lambdarank_score": -1.3958,
+          "lambdarank_score": -1.366,
           "times_bought_before": 1,
           "actually_reordered": true
         },
         {
           "product_name": "Cabernet Sauvignon Wine",
-          "lambdarank_score": -1.4375,
+          "lambdarank_score": -1.4564,
           "times_bought_before": 1,
           "actually_reordered": true
         }
@@ -223,61 +223,61 @@
       "top_10_ranked_by_lambdarank": [
         {
           "product_name": "Organic Strawberries",
-          "lambdarank_score": 0.784,
+          "lambdarank_score": 0.796,
           "times_bought_before": 2,
           "actually_reordered": false
         },
         {
           "product_name": "Dark Chocolate Pretzels with Sea Salt",
-          "lambdarank_score": -0.0347,
+          "lambdarank_score": -0.0411,
           "times_bought_before": 2,
           "actually_reordered": false
         },
         {
           "product_name": "Icelandic Style Fat Free Plain Yogurt",
-          "lambdarank_score": -0.1336,
+          "lambdarank_score": -0.1673,
           "times_bought_before": 1,
           "actually_reordered": false
         },
         {
           "product_name": "Ground Espresso Coffee Medium Roast",
-          "lambdarank_score": -0.1466,
+          "lambdarank_score": -0.2102,
           "times_bought_before": 1,
           "actually_reordered": false
         },
         {
           "product_name": "Chocolate Ice Cream",
-          "lambdarank_score": -0.2631,
+          "lambdarank_score": -0.2386,
           "times_bought_before": 1,
           "actually_reordered": false
         },
         {
           "product_name": "Organic Raspberries",
-          "lambdarank_score": -0.2946,
+          "lambdarank_score": -0.3045,
           "times_bought_before": 1,
           "actually_reordered": false
         },
         {
           "product_name": "Garlic & Fine Herbs Gournay Cheese",
-          "lambdarank_score": -0.4667,
+          "lambdarank_score": -0.4762,
           "times_bought_before": 1,
           "actually_reordered": false
         },
         {
           "product_name": "Organic Bell Pepper",
-          "lambdarank_score": -0.6384,
+          "lambdarank_score": -0.5967,
           "times_bought_before": 1,
           "actually_reordered": false
         },
         {
           "product_name": "Air Chilled Organic Boneless Skinless Chicken Breasts",
-          "lambdarank_score": -0.6614,
+          "lambdarank_score": -0.631,
           "times_bought_before": 1,
           "actually_reordered": true
         },
         {
-          "product_name": "Organic Small Curd Cottage Cheese",
-          "lambdarank_score": -0.6804,
+          "product_name": "Organic Red Bell Pepper",
+          "lambdarank_score": -0.6743,
           "times_bought_before": 1,
           "actually_reordered": false
         }
@@ -289,62 +289,62 @@
       "n_actually_reordered": 4,
       "top_10_ranked_by_lambdarank": [
         {
-          "product_name": "Organic Black Beans",
-          "lambdarank_score": 0.8321,
-          "times_bought_before": 3,
-          "actually_reordered": true
-        },
-        {
           "product_name": "Organic Coconut Milk",
-          "lambdarank_score": 0.8152,
+          "lambdarank_score": 0.8433,
           "times_bought_before": 5,
           "actually_reordered": false
         },
         {
+          "product_name": "Organic Black Beans",
+          "lambdarank_score": 0.7559,
+          "times_bought_before": 3,
+          "actually_reordered": true
+        },
+        {
           "product_name": "Classic Baby Creamers Potatoes",
-          "lambdarank_score": 0.1575,
+          "lambdarank_score": 0.1958,
           "times_bought_before": 2,
           "actually_reordered": true
         },
         {
           "product_name": "Organic Chicken Stock",
-          "lambdarank_score": -0.0144,
+          "lambdarank_score": -0.0301,
           "times_bought_before": 2,
           "actually_reordered": true
         },
         {
           "product_name": "Gourmet Tomato Medley",
-          "lambdarank_score": -0.2776,
+          "lambdarank_score": -0.2504,
           "times_bought_before": 1,
           "actually_reordered": false
         },
         {
           "product_name": "Cinnamon Brown Sugar Breakfast Biscuits",
-          "lambdarank_score": -0.4092,
+          "lambdarank_score": -0.415,
           "times_bought_before": 1,
           "actually_reordered": false
         },
         {
           "product_name": "Organic Butternut Squash Ravioli",
-          "lambdarank_score": -0.4112,
+          "lambdarank_score": -0.4439,
           "times_bought_before": 1,
           "actually_reordered": false
         },
         {
           "product_name": "Raspberries",
-          "lambdarank_score": -0.8415,
-          "times_bought_before": 1,
-          "actually_reordered": false
-        },
-        {
-          "product_name": "April Fresh Liquid Fabric Softener",
-          "lambdarank_score": -1.4933,
+          "lambdarank_score": -0.8399,
           "times_bought_before": 1,
           "actually_reordered": false
         },
         {
           "product_name": "Organic Broccoli",
-          "lambdarank_score": -1.557,
+          "lambdarank_score": -1.5215,
+          "times_bought_before": 1,
+          "actually_reordered": false
+        },
+        {
+          "product_name": "April Fresh Liquid Fabric Softener",
+          "lambdarank_score": -1.5311,
           "times_bought_before": 1,
           "actually_reordered": false
         }
@@ -357,63 +357,63 @@
       "top_10_ranked_by_lambdarank": [
         {
           "product_name": "Organic Strawberries",
-          "lambdarank_score": 2.4966,
+          "lambdarank_score": 2.5159,
           "times_bought_before": 19,
           "actually_reordered": false
         },
         {
           "product_name": "Grade A Large Eggs Cage Free Omega 3",
-          "lambdarank_score": 2.2972,
+          "lambdarank_score": 2.2741,
           "times_bought_before": 17,
           "actually_reordered": true
         },
         {
-          "product_name": "Medium Cheddar Cheese Block",
-          "lambdarank_score": 1.2389,
-          "times_bought_before": 13,
-          "actually_reordered": true
-        },
-        {
           "product_name": "Apple Honeycrisp Organic",
-          "lambdarank_score": 1.2235,
+          "lambdarank_score": 1.2584,
           "times_bought_before": 5,
           "actually_reordered": false
         },
         {
-          "product_name": "Organic Baby Spinach",
-          "lambdarank_score": 1.1241,
-          "times_bought_before": 9,
-          "actually_reordered": false
+          "product_name": "Medium Cheddar Cheese Block",
+          "lambdarank_score": 1.2366,
+          "times_bought_before": 13,
+          "actually_reordered": true
         },
         {
           "product_name": "Organic Broccoli",
-          "lambdarank_score": 1.1227,
+          "lambdarank_score": 1.117,
           "times_bought_before": 10,
           "actually_reordered": true
         },
         {
+          "product_name": "Organic Baby Spinach",
+          "lambdarank_score": 1.0899,
+          "times_bought_before": 9,
+          "actually_reordered": false
+        },
+        {
           "product_name": "Organic Roasted Turkey Breast",
-          "lambdarank_score": 1.0562,
+          "lambdarank_score": 1.0298,
           "times_bought_before": 9,
           "actually_reordered": false
         },
         {
           "product_name": "Organic Blueberry Waffles",
-          "lambdarank_score": 0.8981,
+          "lambdarank_score": 0.88,
           "times_bought_before": 6,
           "actually_reordered": true
         },
         {
           "product_name": "Organic Avocado",
-          "lambdarank_score": 0.7856,
+          "lambdarank_score": 0.7659,
           "times_bought_before": 10,
           "actually_reordered": false
         },
         {
-          "product_name": "Whole Milk",
-          "lambdarank_score": 0.7478,
-          "times_bought_before": 7,
-          "actually_reordered": false
+          "product_name": "Organic Granny Smith Apple",
+          "lambdarank_score": 0.7593,
+          "times_bought_before": 4,
+          "actually_reordered": true
         }
       ]
     },
@@ -424,61 +424,61 @@
       "top_10_ranked_by_lambdarank": [
         {
           "product_name": "Organic Whole Milk",
-          "lambdarank_score": 2.2743,
+          "lambdarank_score": 2.3447,
           "times_bought_before": 7,
           "actually_reordered": true
         },
         {
           "product_name": "Organic Avocado",
-          "lambdarank_score": 1.9448,
+          "lambdarank_score": 1.9887,
           "times_bought_before": 6,
           "actually_reordered": true
         },
         {
           "product_name": "Oven Roasted Turkey Breast",
-          "lambdarank_score": 1.9222,
+          "lambdarank_score": 1.8931,
           "times_bought_before": 7,
           "actually_reordered": true
         },
         {
           "product_name": "Unsweetened Vanilla Almond Milk",
-          "lambdarank_score": 1.7905,
+          "lambdarank_score": 1.7914,
           "times_bought_before": 6,
           "actually_reordered": true
         },
         {
           "product_name": "Organic Grade A Free Range Large Brown Eggs",
-          "lambdarank_score": 1.6148,
+          "lambdarank_score": 1.5969,
           "times_bought_before": 6,
           "actually_reordered": true
         },
         {
           "product_name": "Apple Honeycrisp Organic",
-          "lambdarank_score": 1.4278,
+          "lambdarank_score": 1.3874,
           "times_bought_before": 5,
           "actually_reordered": true
         },
         {
           "product_name": "Organic Yellow Onion",
-          "lambdarank_score": 1.3227,
+          "lambdarank_score": 1.2851,
           "times_bought_before": 6,
           "actually_reordered": false
         },
         {
           "product_name": "Organic Hothouse Cucumbers",
-          "lambdarank_score": 1.2772,
+          "lambdarank_score": 1.264,
           "times_bought_before": 6,
           "actually_reordered": true
         },
         {
           "product_name": "Organic Bartlett Pear",
-          "lambdarank_score": 1.1752,
+          "lambdarank_score": 1.1515,
           "times_bought_before": 4,
           "actually_reordered": true
         },
         {
           "product_name": "Organic Baby Spinach",
-          "lambdarank_score": 0.9877,
+          "lambdarank_score": 1.0015,
           "times_bought_before": 5,
           "actually_reordered": false
         }
@@ -491,61 +491,61 @@
       "top_10_ranked_by_lambdarank": [
         {
           "product_name": "Diced Onions",
-          "lambdarank_score": 1.5416,
+          "lambdarank_score": 1.5342,
           "times_bought_before": 4,
           "actually_reordered": false
         },
         {
           "product_name": "California Clementines",
-          "lambdarank_score": 1.0245,
+          "lambdarank_score": 0.9787,
           "times_bought_before": 3,
           "actually_reordered": true
         },
         {
           "product_name": "Cut & Peeled Baby Carrots",
-          "lambdarank_score": 0.4584,
+          "lambdarank_score": 0.4827,
           "times_bought_before": 2,
           "actually_reordered": true
         },
         {
           "product_name": "Strawberries",
-          "lambdarank_score": 0.2074,
+          "lambdarank_score": 0.1834,
           "times_bought_before": 2,
           "actually_reordered": false
         },
         {
           "product_name": "Banana",
-          "lambdarank_score": 0.2074,
+          "lambdarank_score": 0.1834,
           "times_bought_before": 2,
           "actually_reordered": false
         },
         {
           "product_name": "Royal Gala Apples",
-          "lambdarank_score": -0.2399,
+          "lambdarank_score": -0.2004,
           "times_bought_before": 2,
           "actually_reordered": false
         },
         {
           "product_name": "Organic Strawberries",
-          "lambdarank_score": -0.2684,
+          "lambdarank_score": -0.2717,
           "times_bought_before": 1,
           "actually_reordered": true
         },
         {
           "product_name": "Heavy Whipping Cream",
-          "lambdarank_score": -0.2983,
-          "times_bought_before": 1,
-          "actually_reordered": false
-        },
-        {
-          "product_name": "Whole Milk",
-          "lambdarank_score": -0.3096,
+          "lambdarank_score": -0.3177,
           "times_bought_before": 1,
           "actually_reordered": false
         },
         {
           "product_name": "Organic Blackberries",
-          "lambdarank_score": -0.3584,
+          "lambdarank_score": -0.3243,
+          "times_bought_before": 1,
+          "actually_reordered": false
+        },
+        {
+          "product_name": "Whole Milk",
+          "lambdarank_score": -0.3291,
           "times_bought_before": 1,
           "actually_reordered": false
         }
@@ -558,61 +558,61 @@
       "top_10_ranked_by_lambdarank": [
         {
           "product_name": "Organic Banana",
-          "lambdarank_score": 1.8987,
+          "lambdarank_score": 1.9132,
           "times_bought_before": 6,
           "actually_reordered": true
         },
         {
           "product_name": "2% Reduced Fat Organic Milk",
-          "lambdarank_score": 0.6412,
-          "times_bought_before": 3,
-          "actually_reordered": false
-        },
-        {
-          "product_name": "Organic Large Extra Fancy Fuji Apple",
-          "lambdarank_score": 0.5664,
-          "times_bought_before": 2,
-          "actually_reordered": false
-        },
-        {
-          "product_name": "Large Alfresco Eggs",
-          "lambdarank_score": 0.527,
+          "lambdarank_score": 0.6659,
           "times_bought_before": 3,
           "actually_reordered": false
         },
         {
           "product_name": "Kumato Tomatoes",
-          "lambdarank_score": 0.4807,
+          "lambdarank_score": 0.5556,
           "times_bought_before": 4,
           "actually_reordered": false
         },
         {
-          "product_name": "Organic Hass Avocado",
-          "lambdarank_score": 0.4058,
+          "product_name": "Organic Large Extra Fancy Fuji Apple",
+          "lambdarank_score": 0.5492,
           "times_bought_before": 2,
-          "actually_reordered": true
+          "actually_reordered": false
+        },
+        {
+          "product_name": "Large Alfresco Eggs",
+          "lambdarank_score": 0.5138,
+          "times_bought_before": 3,
+          "actually_reordered": false
         },
         {
           "product_name": "Organic Nondairy Strawberry Cashew Yogurt",
-          "lambdarank_score": 0.3781,
+          "lambdarank_score": 0.4875,
           "times_bought_before": 3,
           "actually_reordered": false
         },
         {
           "product_name": "Organic Kiwi",
-          "lambdarank_score": 0.3546,
+          "lambdarank_score": 0.4634,
           "times_bought_before": 3,
           "actually_reordered": false
         },
         {
+          "product_name": "Organic Hass Avocado",
+          "lambdarank_score": 0.3854,
+          "times_bought_before": 2,
+          "actually_reordered": true
+        },
+        {
           "product_name": "Organic Strawberries",
-          "lambdarank_score": 0.278,
+          "lambdarank_score": 0.2997,
           "times_bought_before": 3,
           "actually_reordered": true
         },
         {
           "product_name": "Mediterranean Mint Gelato",
-          "lambdarank_score": 0.1813,
+          "lambdarank_score": 0.2188,
           "times_bought_before": 3,
           "actually_reordered": false
         }
@@ -625,61 +625,61 @@
       "top_10_ranked_by_lambdarank": [
         {
           "product_name": "Bag of Organic Bananas",
-          "lambdarank_score": 2.474,
+          "lambdarank_score": 2.5904,
           "times_bought_before": 46,
           "actually_reordered": true
         },
         {
           "product_name": "Organic Gala Apples",
-          "lambdarank_score": 2.3494,
+          "lambdarank_score": 2.4526,
           "times_bought_before": 43,
           "actually_reordered": true
         },
         {
           "product_name": "Organic  Whole Milk",
-          "lambdarank_score": 2.313,
+          "lambdarank_score": 2.4446,
           "times_bought_before": 44,
           "actually_reordered": true
         },
         {
           "product_name": "Organic Hass Avocado",
-          "lambdarank_score": 2.0742,
+          "lambdarank_score": 2.0702,
           "times_bought_before": 33,
           "actually_reordered": true
         },
         {
           "product_name": "Organic Whole Milk",
-          "lambdarank_score": 1.886,
+          "lambdarank_score": 1.9022,
           "times_bought_before": 36,
           "actually_reordered": true
         },
         {
           "product_name": "Organic Pasture Raised Brown Eggs",
-          "lambdarank_score": 1.5039,
+          "lambdarank_score": 1.4978,
           "times_bought_before": 28,
           "actually_reordered": false
         },
         {
           "product_name": "Chocolate Lowfat Milk",
-          "lambdarank_score": 1.4038,
+          "lambdarank_score": 1.3689,
           "times_bought_before": 25,
           "actually_reordered": false
         },
         {
           "product_name": "Ambrosia, Medium Roast",
-          "lambdarank_score": 1.3037,
+          "lambdarank_score": 1.3371,
           "times_bought_before": 22,
           "actually_reordered": true
         },
         {
           "product_name": "Organic Small Bunch Celery",
-          "lambdarank_score": 1.188,
+          "lambdarank_score": 1.2159,
           "times_bought_before": 24,
           "actually_reordered": false
         },
         {
           "product_name": "Organic Red Potatoes",
-          "lambdarank_score": 1.1547,
+          "lambdarank_score": 1.1665,
           "times_bought_before": 26,
           "actually_reordered": false
         }
@@ -692,63 +692,63 @@
       "top_10_ranked_by_lambdarank": [
         {
           "product_name": "Half & Half",
-          "lambdarank_score": 1.0192,
+          "lambdarank_score": 1.0381,
           "times_bought_before": 3,
           "actually_reordered": false
         },
         {
           "product_name": "Organic Baby Spinach",
-          "lambdarank_score": 0.5754,
+          "lambdarank_score": 0.631,
           "times_bought_before": 2,
           "actually_reordered": true
         },
         {
           "product_name": "Cran Raspberry Sparkling Water",
-          "lambdarank_score": 0.4998,
+          "lambdarank_score": 0.4326,
           "times_bought_before": 3,
           "actually_reordered": false
         },
         {
           "product_name": "Bag of Organic Bananas",
-          "lambdarank_score": 0.3069,
+          "lambdarank_score": 0.3087,
           "times_bought_before": 1,
           "actually_reordered": true
         },
         {
           "product_name": "Limes",
-          "lambdarank_score": 0.1867,
+          "lambdarank_score": 0.1587,
           "times_bought_before": 1,
           "actually_reordered": true
         },
         {
-          "product_name": "Sparkling Water Berry",
-          "lambdarank_score": 0.1223,
-          "times_bought_before": 1,
-          "actually_reordered": true
-        },
-        {
-          "product_name": "Lime",
-          "lambdarank_score": 0.1173,
+          "product_name": "Boneless Skinless Chicken Breasts",
+          "lambdarank_score": 0.1213,
           "times_bought_before": 3,
           "actually_reordered": false
         },
         {
+          "product_name": "Lime",
+          "lambdarank_score": 0.0943,
+          "times_bought_before": 3,
+          "actually_reordered": false
+        },
+        {
+          "product_name": "Sparkling Water Berry",
+          "lambdarank_score": 0.0878,
+          "times_bought_before": 1,
+          "actually_reordered": true
+        },
+        {
           "product_name": "Peanut Butter Bar",
-          "lambdarank_score": 0.0217,
+          "lambdarank_score": 0.0091,
           "times_bought_before": 2,
           "actually_reordered": true
         },
         {
           "product_name": "Yellow Onions",
-          "lambdarank_score": 0.0148,
+          "lambdarank_score": 0.0039,
           "times_bought_before": 2,
           "actually_reordered": true
-        },
-        {
-          "product_name": "Boneless Skinless Chicken Breasts",
-          "lambdarank_score": 0.0125,
-          "times_bought_before": 3,
-          "actually_reordered": false
         }
       ]
     },
@@ -759,61 +759,61 @@
       "top_10_ranked_by_lambdarank": [
         {
           "product_name": "Banana",
-          "lambdarank_score": 2.7234,
+          "lambdarank_score": 2.6561,
           "times_bought_before": 13,
           "actually_reordered": false
         },
         {
           "product_name": "Yellow Onions",
-          "lambdarank_score": 1.3254,
+          "lambdarank_score": 1.337,
           "times_bought_before": 7,
           "actually_reordered": true
         },
         {
           "product_name": "Sliced Baby Bella Mushrooms",
-          "lambdarank_score": 1.2686,
+          "lambdarank_score": 1.2728,
           "times_bought_before": 7,
           "actually_reordered": true
         },
         {
           "product_name": "Unsweetened Original Almond Breeze Almond Milk",
-          "lambdarank_score": 1.1252,
+          "lambdarank_score": 1.1231,
           "times_bought_before": 5,
           "actually_reordered": false
         },
         {
           "product_name": "Non Fat Raspberry Yogurt",
-          "lambdarank_score": 0.954,
+          "lambdarank_score": 0.9517,
           "times_bought_before": 5,
           "actually_reordered": false
         },
         {
           "product_name": "Blackberries",
-          "lambdarank_score": 0.6968,
+          "lambdarank_score": 0.6543,
           "times_bought_before": 10,
           "actually_reordered": false
         },
         {
           "product_name": "Total 0% with Honey Nonfat Greek Strained Yogurt",
-          "lambdarank_score": 0.5706,
+          "lambdarank_score": 0.6117,
           "times_bought_before": 3,
           "actually_reordered": false
         },
         {
           "product_name": "Bartlett Pears",
-          "lambdarank_score": 0.4088,
+          "lambdarank_score": 0.4177,
           "times_bought_before": 2,
           "actually_reordered": true
         },
         {
-          "product_name": "Organic Coconut Milk",
-          "lambdarank_score": 0.3087,
-          "times_bought_before": 3,
+          "product_name": "Organic Braeburn Apple",
+          "lambdarank_score": 0.3199,
+          "times_bought_before": 4,
           "actually_reordered": false
         },
         {
-          "product_name": "Organic Braeburn Apple",
-          "lambdarank_score": 0.3049,
+          "product_name": "Grass Fed Ground Beef",
+          "lambdarank_score": 0.3009,
           "times_bought_before": 4,
           "actually_reordered": false
         }

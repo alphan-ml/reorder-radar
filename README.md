@@ -92,22 +92,65 @@ $ python3 -m reorder_radar.rank 156122
 excluded for having zero candidate products that reappear in their final
 order)
 
-| Metric | LightGBM lambdarank | Buy-it-again-by-frequency baseline |
-|---|---|---|
-| NDCG@10 | 0.5487 | 0.5013 |
-| NDCG@20 | 0.6053 | 0.5570 |
-| Recall@10 | 0.5783 | 0.5246 |
-| Recall@20 | 0.7553 | 0.7016 |
+Two baselines, no fitting for either: **buy-it-again-by-frequency** (rank by
+`times_bought`, tie-broken by `reorder_rate`) and **frequency+recency**
+(rank by `times_bought`, tie-broken by days since the item was last bought
+-- more recent scores higher). Point estimates are 95% confidence intervals
+from a paired bootstrap over users (1,000 resamples, seed 26, computed by
+`src/reorder_radar/bootstrap.py` from `outputs/per_user_metrics.csv`, so
+future re-runs of the interval never need the raw candidate rows again).
 
-The lambdarank model beats the frequency baseline on every metric, with
-the largest gap at NDCG@10 -- it is doing more than just re-deriving
-"buy what you buy most", most visibly on users with large candidate sets
-(see `outputs/site_data.json` example rankings, e.g. `holdout_user_08`:
-139 candidates, 11 reordered, ranked almost entirely correctly by
-purchase frequency *and* recency together).
+| Metric | LightGBM lambdarank | Buy-it-again-by-frequency baseline | Frequency+recency baseline |
+|---|---|---|---|
+| NDCG@10 | 0.5486 (0.5439-0.5534) | 0.5013 (0.4965-0.5059) | 0.5177 |
+| NDCG@20 | 0.6051 | 0.5570 | 0.5756 |
+| Recall@10 | 0.5782 (0.5728-0.5839) | 0.5246 (0.5191-0.5304) | 0.5443 |
+| Recall@20 | 0.7550 | 0.7016 | 0.7254 |
 
-Val-set (early-stopping) NDCG during training: NDCG@10 0.5756, NDCG@20
-0.6301, best iteration 133 of 500, fit on 104,967 users.
+Lift, lambdarank minus the frequency baseline, same paired bootstrap (the
+pairing -- resampling the same users for both sides of the subtraction each
+round -- is what keeps this interval tight despite each metric's own CI
+being wider): **NDCG@10 lift 0.0447 (95% CI 0.0445-0.0501)**, **Recall@10
+lift 0.0535 (95% CI 0.0497-0.0573)**. Zero is nowhere near either interval,
+so the lift is not bootstrap noise.
+
+The lambdarank model beats both baselines on every metric, with the
+largest gap at NDCG@10 over the plain frequency baseline -- it is doing
+more than just re-deriving "buy what you buy most", most visibly on users
+with large candidate sets (see `outputs/site_data.json` example rankings,
+e.g. `holdout_user_08`: 139 candidates, 11 reordered, ranked almost
+entirely correctly by purchase frequency *and* recency together). The
+frequency+recency baseline closes part of that gap on its own, which is
+exactly what the segment tables below make visible.
+
+### Results by candidate-set size (paired bootstrap CI on the NDCG@10 lift, same 1,000 resamples)
+
+| Candidate-set size | n users | NDCG@10 model | NDCG@10 baseline | Lift | 95% CI |
+|---|---|---|---|---|---|
+| under 10 | 662 | 0.8301 | 0.8154 | 0.0147 | 0.0037-0.0257 |
+| 10 to 29 | 2,798 | 0.6479 | 0.5947 | 0.0531 | 0.0457-0.0596 |
+| 30 to 99 | 6,204 | 0.5108 | 0.4642 | 0.0466 | 0.0427-0.0507 |
+| 100 and more | 2,567 | 0.4593 | 0.4082 | 0.0511 | 0.0458-0.0567 |
+
+### Results by shopper history (prior-order count quartile)
+
+| Quartile (prior orders) | n users | NDCG@10 model | NDCG@10 baseline | Lift | 95% CI |
+|---|---|---|---|---|---|
+| Q1 (3-5) | 3,311 | 0.5864 | 0.5473 | 0.0390 | 0.0332-0.0447 |
+| Q2 (6-10) | 3,142 | 0.5557 | 0.5139 | 0.0418 | 0.0365-0.0476 |
+| Q3 (11-20) | 2,801 | 0.5339 | 0.4839 | 0.0500 | 0.0443-0.0562 |
+| Q4 (21-99) | 2,977 | 0.5131 | 0.4533 | 0.0597 | 0.0545-0.0652 |
+
+Users with the smallest candidate sets are near a ranking ceiling for both
+model and baseline (few products to reorder from, so both agree most of
+the time) -- the lift there is real but small and has the widest CI
+relative to its size. Lift grows and stays statistically clear of zero
+once a user has 10+ candidates or 6+ prior orders, and is largest for
+users with the longest shopper history (Q4), where a frequency count alone
+has the most room to be wrong. Full numbers: `outputs/segments.json`.
+
+Val-set (early-stopping) NDCG during training: NDCG@10 0.5751, NDCG@20
+0.6298, best iteration 147 of 500, fit on 104,967 users.
 
 ## Surrogate-value module results
 

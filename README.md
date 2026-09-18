@@ -294,3 +294,47 @@ Lambda cold start. See `aws-lambda/build_artifacts.py`.
   inline `s3:GetObject` on `models/*`)
 - Lambda function `reorder-rank-user` (python3.11, 1024 MB, 30 s timeout)
 - API Gateway HTTP API `reorder-rank-api`
+
+## Live Eval canary
+
+`.github/workflows/canary.yml` runs `src/reorder_radar/canary.py` every 6
+hours (cron `17 */6 * * *`, plus manual `workflow_dispatch`) against the
+**live** `/rank` endpoint above -- not a local model load.
+
+What it does:
+
+1. Calls `POST /rank` once per shopper in the fixed 200-shopper canary set,
+   `canary/rows.json` -- real held-out shoppers (from the 12,231 evaluated
+   in `outputs/metrics_lambdarank.json`) paired with the products they
+   actually reordered next. A test (`tests/test_canary.py`) proves every
+   `user_id` in that file is in `outputs/split_ids.json`'s `test_ids`.
+2. Scores each response with `eval.per_user_metrics` -- the same NDCG code
+   the offline evaluation uses, imported rather than reimplemented -- and
+   averages NDCG@10 across the set.
+3. Compares the observed NDCG@10 to the recorded value in
+   `outputs/metrics_lambdarank.json` (0.5486) within a tolerance of 0.030,
+   and also records `recall_at_10`. An endpoint error on a row is counted
+   in `errors` and contributes no score; `match` is only `true` if every
+   row scored cleanly and the observed metric is within tolerance.
+4. Prints one JSON record to stdout, then commits it to this repo's
+   `ledger` branch (created as an orphan on first run): appended as one
+   line to `ledger/runs.jsonl`, and overwritten as `ledger/latest.json`.
+   Both files are public at
+   `https://raw.githubusercontent.com/alphan-ml/reorder-radar/ledger/latest.json`
+   and `.../ledger/runs.jsonl` -- this is what giggitai.com's Live Eval tab
+   reads and replays as a terminal. Ledger commits are authored as
+   `Alpha N <45754668+alphan-ml@users.noreply.github.com>`, message
+   `canary: <system> <metric> <observed> (recorded <recorded>)`.
+
+How to read `match`: `true` means the live endpoint's ranking quality on
+this run is within 0.030 NDCG@10 of the recorded offline metric and every
+row scored without error -- the deployed model matches what was measured
+at training time. `false` means either an endpoint error occurred or the
+live metric drifted outside tolerance; check `errors` and `observed` vs
+`recorded` in that run's record to tell which.
+
+Run it by hand:
+
+```bash
+python3 -m reorder_radar.canary
+```

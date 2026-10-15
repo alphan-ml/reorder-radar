@@ -338,3 +338,11 @@ Run it by hand:
 ```bash
 python3 -m reorder_radar.canary
 ```
+
+
+## Experimental replenishment-aware ranking (October 2026)
+
+To test whether a shopper's product replenishment cycle improves ranked recommendations, run the existing features stage, followed by `python -m reorder_radar.challenger`. This fits a separate LambdaRank candidate with past-only interpurchase intervals, a replenishment-due ratio, and within-user historical department affinity. The result is saved to `outputs/replenishment_challenger_validation.json`.
+
+The experiment uses only the repository's train and validation users, with a further early-stop split **inside** training. Final test users are excluded, and there is **no promotion**, business-lift claim, or live Lambda change. A candidate needs a frozen holdout test and deployed historical-feature parity before publication. The current published NDCG and recall values remain the original model's scores.
+

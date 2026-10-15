@@ -13,7 +13,8 @@ import lightgbm as lgb
 import pandas as pd
 from sklearn.model_selection import train_test_split
 
-from reorder_radar import clean, eval as ranking_eval, model
+from reorder_radar import clean, model
+from reorder_radar import eval as ranking_eval
 from reorder_radar.replenishment import EXTRA_FEATURES, add_history_features, history_features
 
 ROOT = Path(__file__).resolve().parents[2]
